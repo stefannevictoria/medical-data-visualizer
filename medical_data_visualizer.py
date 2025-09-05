@@ -9,11 +9,15 @@ df = pd.read_csv('medical_examination.csv') # carrega o banco de dados
 
 # 2
 bmi = df['weight'] / ((df['height']/100)**2) # cria uma função que armazena o cálculo do BMI
-df['overweight'] = (bmi > 25).map({True: 1, False: 0}) # create a new column which 0 means not overweight, and 1 overweight. bmi>25 create a series of true/false for each row, and .map converts to 1 if true and 0 if false
+df['overweight'] = (bmi > 25).map({True: 1, False: 0}) # cria uma nova coluna em que 0 significa 'not overweight = não está acima do peso' e 1 significa 'overweight = está acima do peso'
+# bmi > 25 gera uma série de valores True/False (um para cada linha), e .map converte esses valores para 1 se for True (verdadeiro) e 0 se for False (falso)
 
 # 3
-df['cholesterol'] = (df['cholesterol'] == 1).map({True: 0, False: 1}) # converts values equal to 1 in the column to 0, and values higher than 1 to 1
-df['gluc'] = (df['gluc'] == 1).map({True: 0, False: 1}) # converts values equal to 1 in the column to 0, and values higher than 1 to 1
+print((df['gluc'] == 0).sum()) # verificando se há algum valor igual a 0 nas colunas 'gluc' e 'cholesterol'
+print((df['cholesterol'] == 0).sum())
+# como não há nenhum valor igual a 0, é possível usar .map() -> somente os valores maiores que 1 serão transformados em 1 
+df['cholesterol'] = (df['cholesterol'] == 1).map({True: 0, False: 1}) # converte os valores iguais a 1 na coluna para 0, e valores diferentes ou maiores (já que não possui menores) de 1 para 1
+df['gluc'] = (df['gluc'] == 1).map({True: 0, False: 1}) # converte os valores iguais a 1 na coluna para 0, e valores diferentes ou maiores (já que não possui menores) de 1 para 1
 
 # 4
 def draw_cat_plot():
@@ -81,4 +85,4 @@ def draw_heat_map():
 
     # 16
     fig.savefig('heatmap.png') # salva a figura do gráfico
-    return fig
+    return fig # mostra a figura
